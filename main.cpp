@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <cstdlib>
 using namespace std;
 
 int MyHealth = 100;
@@ -7,25 +7,25 @@ int EnemyHealth = 50;
 int Attack = 1;
 int BowSkill = 10;
 int SwordSkill = 20;
-int EnemyBeserkerDamage = 10;
-int EnemyValkyrieDamage = 20;
+//int EnemyBeserkerDamage = 10;
+//int EnemyValkyrieDamage = 20;
 int PlayerPosX = 5;
 int PlayerPosY = 9;
 const static int MAX_MAP_X_INDEX = 9;
-const static int MAX_MAP_X_INDEX = 9;
+const static int MAX_MAP_Y_INDEX = 9;
 
 int Map[10][10] =
 {
-    {9,9,9,9,9,9,9,9,9,9},
-    {8,8,8,8,8,8,8,8,8,8},
-    {0,7,0,0,0,6,0,0,7,0},
-    {0,6,0,4,0,5,0,6,0,6},
-    {0,0,4,0,5,0,6,0,4,0},
-    {0,5,0,4,0,0,4,0,4,0},
-    {3,0,0,0,0,5,4,0,0,0},
-    {0,0,3,0,3,0,0,0,3,0},
-    {0,3,4,0,2,2,2,0,0,0},
-    {0,0,0,0,0,1,2,0,0,0}
+    {2,9,0,0,0,0,0,0,0,2},
+    {0,9,0,9,9,9,9,9,0,0},
+    {0,0,0,9,0,2,0,9,0,0},
+    {0,0,0,0,0,0,2,9,0,0},
+    {0,0,0,9,0,2,0,9,0,0},
+    {0,0,0,9,9,9,9,9,0,0},
+    {2,0,0,0,0,2,0,0,0,2},
+    {9,9,0,0,0,0,0,0,9,9},
+    {0,9,0,0,0,2,0,2,9,0},
+    {2,0,0,0,3,1,3,0,0,0}
 };
 
 void printMap()
@@ -68,7 +68,8 @@ public:
         Health-=dam;
         return isDead();
     }
-    int getHealth() {
+    int getHealth()
+    {
         return Health;
     }
 private:
@@ -77,11 +78,13 @@ private:
     std::string Name;
 };
 
-void movePlayer() {
+void movePlayer()
+{
     char direction;
     cout << "which way?" << endl;
     cin >> direction;
-    switch(direction) {
+    switch(direction)
+    {
     case 'w':
         PlayerPosX--;
         break;
@@ -95,16 +98,20 @@ void movePlayer() {
         PlayerPosY++;
         break;
     }
-    if(PlayerPosX<0) {
+    if(PlayerPosX<0)
+    {
         PlayerPosX=0;
     }
-    if(PlayerPosX>MAX_MAP_X_INDEX) {
+    if(PlayerPosX>MAX_MAP_X_INDEX)
+    {
         PlayerPosX = MAX_MAP_X_INDEX;
     }
-     if(PlayerPosY<0) {
+    if(PlayerPosY<0)
+    {
         PlayerPosY=0;
     }
-    if(PlayerPosX>MAX_MAP_Y_INDEX) {
+    if(PlayerPosX>MAX_MAP_Y_INDEX)
+    {
         PlayerPosX = MAX_MAP_Y_INDEX;
     }
 }
@@ -168,51 +175,155 @@ int main(int argc, char **argv)
     cout << "Congrats! You have defeated the tutorial Berserker." << endl;
     cout << "Adventurer, now that you have completed your tutorial you will now be able to play." << endl;
 
-    printMap();
-    movePlayer();
-    printMap();
-    int Player = Map[9][5];
-    if (Map[9][6] == Player)
+    while (!MyHealth <= 0)
     {
-        cout << "You have encountered a Small Canoe. When you explore you find a single healthy Valkyrie ready for its next foe. " << Valkyrie.getName() << endl;
 
-        cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
-    cin >> Attack;
-
- if (Attack == 1)
-    {
-        Valkyrie.takeDamage(BowSkill);
-        //EnemyHealth -= BowSkill;
-        cout << "The Enemy can not reach you since you did not go to engage her." << endl;
-    }
-    if (Attack == 2)
-    {
-        Valkyrie.takeDamage(SwordSkill);
-        //EnemyHealth -= SwordSkill;
-        cout << "The Enemy strikes back with 20 damage" << endl;
-        MyHealth -= Valkyrie.getDamage();
-    }
-
-        while(!Valkyrie.isDead())
+        printMap();
+        //rLocation = Map[][];
+        //int (*Location)(Map[][]);
+        //Location = &movePlayer;
+        //rLocation = (*Location)(9,5)
+        movePlayer();
+        if(PlayerPosX==6 && PlayerPosY==9)
         {
+            cout << "You have encountered a Small Canoe. When you explore you find a single healthy Valkyrie ready for its next foe. " << Valkyrie.getName() << endl;
+
             cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
             cin >> Attack;
+
             if (Attack == 1)
             {
                 Valkyrie.takeDamage(BowSkill);
-                //EnemyHealth = EnemyHealth - 10;
+                //EnemyHealth -= BowSkill;
+                cout << "The Enemy can not reach you since you did not go to engage her." << endl;
             }
             if (Attack == 2)
             {
                 Valkyrie.takeDamage(SwordSkill);
+                //EnemyHealth -= SwordSkill;
+                cout << "The Enemy strikes back with 20 damage" << endl;
+                MyHealth -= Valkyrie.getDamage();
             }
-            cout << "The Enemy strikes back with 20 damage" << endl;
-            MyHealth -= Valkyrie.getDamage();
-            cout << "My Health: " << MyHealth << endl;
-            cout << "Enemy Health: " << Valkyrie.getHealth() << endl;
+
+            while(!Valkyrie.isDead())
+            {
+                cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
+                cin >> Attack;
+                if (Attack == 1)
+                {
+                    Valkyrie.takeDamage(BowSkill);
+                    //EnemyHealth = EnemyHealth - 10;
+                }
+                if (Attack == 2)
+                {
+                    Valkyrie.takeDamage(SwordSkill);
+                }
+                cout << "The Enemy strikes back with 20 damage" << endl;
+                MyHealth -= Valkyrie.getDamage();
+                cout << "My Health: " << MyHealth << endl;
+                cout << "Enemy Health: " << Valkyrie.getHealth() << endl;
+            }
+        }
+        NPC WildBeast (300,5,"Buff");
+        if(PlayerPosX==4 && PlayerPosY==9)
+        {
+            MyHealth -= 10;
+            cout << "You are starving. In the search of food you feel weak and don't see the obvious signs of a Powerful Creature you know you should avoid. There were giant footprints, tiny bits of skin everywhere and Finally, the biggest sign of all that no Healthy Human could miss was a big giant Blood dripping, Bear Foot. But since you were about to pass out (-10 Health) you did not see these signs and Found a fat Wild Beast..." << endl;
+            cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
+            cin >> Attack;
+
+            if (Attack == 1)
+            {
+                WildBeast.takeDamage(BowSkill);
+                //EnemyHealth -= BowSkill;
+                cout << "The Enemy can not reach you since you did not go to engage it." << endl;
+            }
+            if (Attack == 2)
+            {
+                WildBeast.takeDamage(SwordSkill);
+                //EnemyHealth -= SwordSkill;
+                cout << "The Enemy strikes back with 20 damage" << endl;
+                MyHealth -= WildBeast.getDamage();
+            }
+
+            while(!WildBeast.isDead())
+            {
+                cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
+                cin >> Attack;
+                if (Attack == 1)
+                {
+                    WildBeast.takeDamage(BowSkill);
+                    //EnemyHealth = EnemyHealth - 10;
+                }
+                if (Attack == 2)
+                {
+                    WildBeast.takeDamage(SwordSkill);
+                }
+                cout << "The Enemy strikes back with 20 damage" << endl;
+                MyHealth -= WildBeast.getDamage();
+                cout << "My Health: " << MyHealth << endl;
+                cout << "Enemy Health: " << WildBeast.getHealth() << endl;
+            }
+        }
+        if ( (PlayerPosX ==5 && PlayerPosY ==8)  || (PlayerPosX ==8 && PlayerPosY ==7) || (PlayerPosX ==0 && PlayerPosY ==9) ||
+            (PlayerPosX ==0 && PlayerPosY ==6)  || (PlayerPosX ==5 && PlayerPosY ==6) || (PlayerPosX ==9 && PlayerPosY ==6)  ||
+            (PlayerPosX ==0 && PlayerPosY ==0) || (PlayerPosX ==0 && PlayerPosY ==9)  || (PlayerPosX ==2 && PlayerPosY ==5)  ||
+            (PlayerPosX ==3 && PlayerPosY ==6)  || (PlayerPosX ==4 && PlayerPosY ==5 || (PlayerPosX ==7 && PlayerPosY ==8)))
+        {
+            switch((rand() % 2) + 1)
+            {
+
+            case 1:
+            {
+                NPC BanditArcher (50,30, "Perfect Shot");
+                cout << "You smell fire in the distance. Closer, you notice that Smoke is coming from multiple different Chimney's. Amazing! You thought. You had not seen Civilization in Ages! Happily, you push your horse to a gallop. Also, when you stare down you realizes that you have been riding on the beaten path for a while now. What my Luck you think. Thats until you see a Bandit off in the distance his bow Pointed Right at you.";
+                MyHealth -= BanditArcher.getDamage();
+                cout << "You Take a bow shot to the leg before you can get into range to shoot him with some accuracy or charge him. Luckly, Since your mother was a medic you know that where you got hit will only make you bleed." << endl;
+                cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
+                cin >> Attack;
+
+                if (Attack == 1)
+                {
+                    BanditArcher.takeDamage(BowSkill);
+                    //EnemyHealth -= BowSkill;
+                    cout << "The Enemy can not reach you since you did not go to engage her." << endl;
+                }
+                if (Attack == 2)
+                {
+                    BanditArcher.takeDamage(SwordSkill);
+                    //EnemyHealth -= SwordSkill;
+                    cout << "The Enemy strikes back with 20 damage" << endl;
+                    MyHealth -= BanditArcher.getDamage();
+                }
+
+                while(!BanditArcher.isDead())
+                {
+                    cout << "What do you wish to do: shoot your bow(1), or attack with your sword?(2)" << endl;
+                    cin >> Attack;
+                    if (Attack == 1)
+                    {
+                        BanditArcher.takeDamage(BowSkill);
+                        //EnemyHealth = EnemyHealth - 10;
+                    }
+                    if (Attack == 2)
+                    {
+                        BanditArcher.takeDamage(SwordSkill);
+                    }
+                    cout << "The Enemy strikes back with 20 damage" << endl;
+                    MyHealth -= BanditArcher.getDamage();
+                    cout << "My Health: " << MyHealth << endl;
+                    cout << "Enemy Health: " << BanditArcher.getHealth() << endl;
+                }
+                cout << "After this Encounter the village People rush out of the woods to Thank You for killing the threat that has been terrorizing them for weeks. They appologize for not being able to give you a reward since the Bandit stole Everything they had but, they nurse you back to full health." << endl;
+                MyHealth = 100;
+            }
+            case 2:
+            {
+                cout << "test/n";
+            }
+            }
         }
     }
     return 0;
 }
-
 

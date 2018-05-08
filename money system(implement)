@@ -1,0 +1,18 @@
+// Example program
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+
+
+int win = 1;
+int bonus;
+int money = 100;
+int difficulty=1;
+int main()
+{
+  if(win=1){
+      srand(time(NULL));
+      money += rand()%100;
+      }
+     std::cout<< money;
+}

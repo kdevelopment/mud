@@ -1,0 +1,20 @@
+#include <iostream>
+#include <time.h>
+#include <stdlib.h>
+
+
+int critchance = 50;
+int crit;
+int health= 100;
+int main()
+{
+      srand(time(NULL));
+      crit = rand()%100;
+    if(crit <=critchance){
+        // put the name of npc + .takedamage
+        //test
+        health -= 50;
+        std::cout<<health;
+        }
+        
+}

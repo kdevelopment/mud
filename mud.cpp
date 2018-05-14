@@ -2,7 +2,16 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include "inventory.h"
 using namespace std;
+
+class Player {
+public:
+	Player();
+private:
+	int mHealth;
+	Inventory mInventory;
+};
 
 int MyHealth = 100;
 int EnemyHealth = 50;
@@ -120,8 +129,23 @@ void movePlayer()
     }
 }
 
+MagicAbilityPrototype Prototype1("FireBall", 20, 0);
+
 int main(int argc, char **argv)
 {
+	Inventory MyInventory;
+	MagicAbilityFolder *maf = new MagicAbilityFolder("MyMagicFolder");
+	MagicAbilityInstance *mai = new MagicAbilityInstance(&Prototype1);
+	maf->addMagicAbility(std::shared_ptr<MagicAbilityInstance>(mai));
+	MyInventory.addFolder(maf);
+	//std::string info;
+	//Prototype1.toString(info);
+	//std::cout << info.c_str() << std::endl;
+	std::string instanceInfo;
+	mai->toString(instanceInfo);
+	std::cout << instanceInfo.c_str() << std::endl;
+
+
 	cout << "Hello Adventurer," << endl;
 	cout << "Soon you will embark on your adventure of revenge upon the Vikings." << endl;
 	cout << "They destroyed your family, home, and friends." << endl;

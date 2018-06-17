@@ -130,13 +130,15 @@ void movePlayer()
 }
 
 MagicAbilityPrototype Prototype1("FireBall", 20, 0);
-
+MagicAbilityPrototype Prototype3("Magic Missle", 20, 0);
+SwordAbilityPrototype Prototype2("Stab", 30, 0);
 int main(int argc, char **argv)
 {
 	Inventory MyInventory;
 	MagicAbilityFolder *maf = new MagicAbilityFolder("MyMagicFolder");
 	MagicAbilityInstance *mai = new MagicAbilityInstance(&Prototype1);
 	maf->addMagicAbility(std::shared_ptr<MagicAbilityInstance>(mai));
+	maf->addMagicAbility(std::shared_ptr<MagicAbilityInstance>(new MagicAbilityInstance(&Prototype3)));
 	MyInventory.addFolder(maf);
 	//std::string info;
 	//Prototype1.toString(info);
@@ -145,6 +147,31 @@ int main(int argc, char **argv)
 	mai->toString(instanceInfo);
 	std::cout << instanceInfo.c_str() << std::endl;
 
+	SwordAbilityFolder *saf = new SwordAbilityFolder("MySwordFolder");
+	SwordAbilityInstance *sai = new SwordAbilityInstance(&Prototype2);
+	saf->addSwordAbility(std::shared_ptr<SwordAbilityInstance>(sai));
+	MyInventory.addFolder(saf);
+	//std::string info;
+	//Prototype1.toString(info);
+	//std::cout << info.c_str() << std::endl;
+	instanceInfo.clear();
+	sai->toString(instanceInfo);
+	std::cout << instanceInfo.c_str() << std::endl;
+
+	{
+		MagicAbilityFolder *tmpMaf = 0;
+		std::shared_ptr<MagicAbilityFolder> bif = MyInventory.getFolderByType(tmpMaf);
+		std::string toScreenMagic;
+		bif->toInterfaceString(toScreenMagic);
+		cout << toScreenMagic.c_str() << endl;
+	}
+	{
+		SwordAbilityFolder *tmpSaf = 0;
+		std::shared_ptr<SwordAbilityFolder> bif = MyInventory.getFolderByType(tmpSaf);
+		std::string toScreenSword;
+		bif->toInterfaceString(toScreenSword);
+		cout << toScreenSword.c_str() << endl;
+	}
 
 	cout << "Hello Adventurer," << endl;
 	cout << "Soon you will embark on your adventure of revenge upon the Vikings." << endl;
@@ -176,29 +203,17 @@ int main(int argc, char **argv)
 	}
 	if (Attack == 2)
 	{
-		Beserker.takeDamage(SwordSkill);
+			
+		/*Beserker.takeDamage(SwordSkill);
 		//EnemyHealth -= SwordSkill;
 		cout << "The Enemy strikes back with 10 damage" << endl;
-		MyHealth -= Beserker.getDamage();
+		MyHealth -= Beserker.getDamage();*/
 	}
 	if (Attack == 3)
 	{
-		Beserker.takeDamage(MagicSkill);
+		cout << "What Magic Ability would you like to use?";
+		//Beserker.takeDamage(MagicSkill);
 		//EnemyHealth -= SwordSkill;
-		if (MagicSkill <= 150) {
-
-			unsigned long int	srand(time(NULL));
-			unsigned long int RecoilChance = (rand() % 2);
-			if (RecoilChance = 0)
-			{
-				cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-				MyHealth -= 10;
-			}
-			else
-			{
-				cout << "Your magic lands with no recoil" << endl;
-			}
-		}
 
 	}
 
@@ -219,20 +234,7 @@ int main(int argc, char **argv)
 		{
 			Beserker.takeDamage(MagicSkill);
 			//EnemyHealth -= SwordSkill;
-			if (MagicSkill <= 150) {
-
-				unsigned long intsrand(time(NULL));
-				unsigned long int	RecoilChance = (rand() % 2);
-				if (RecoilChance = 0)
-				{
-					cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-					MyHealth -= 10;
-				}
-				else
-				{
-					cout << "Your magic lands with no recoil" << endl;
-				}
-			}
+			
 		}
 			cout << "The Enemy strikes back with 10 damage" << endl;
 			MyHealth -= Beserker.getDamage();
@@ -245,7 +247,7 @@ int main(int argc, char **argv)
 		cout << "Congrats! You have defeated the tutorial Berserker." << endl;
 		cout << "Adventurer, now that you have completed your tutorial you will now be able to play." << endl;
 
-		while (!MyHealth <= 0)
+		while (MyHealth > 0)
 		{
 
 			printMap();
@@ -278,21 +280,9 @@ int main(int argc, char **argv)
 				{
 					Valkyrie.takeDamage(BowSkill);
 					//EnemyHealth -= SwordSkill;
-					if (MagicSkill <= 150) {
+					
 
-						unsigned long int srand(time(NULL));
-						unsigned long int	RecoilChance = (rand() % 2);
-						if (RecoilChance = 0)
-						{
-							cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-							MyHealth -= 10;
-
-						}
-						else
-						{
-							cout << "Your magic lands with no recoil" << endl;
-						}
-					}
+				
 				}
 				while (!Valkyrie.isDead())
 				{
@@ -311,20 +301,7 @@ int main(int argc, char **argv)
 					{
 						Valkyrie.takeDamage(BowSkill);
 						//EnemyHealth -= SwordSkill;
-						if (MagicSkill <= 150) {
-
-							unsigned long int srand(time(NULL));
-							unsigned long int	RecoilChance = (rand() % 2);
-							if (RecoilChance = 1)
-							{
-								cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-								MyHealth -= 10;
-							}
-							else
-							{
-								cout << "Your magic lands with no recoil" << endl;
-							}
-						}
+						
 					}
 					cout << "The Enemy strikes back with 20 damage" << endl;
 					MyHealth -= Valkyrie.getDamage();
@@ -357,20 +334,7 @@ int main(int argc, char **argv)
 				{
 					WildBeast.takeDamage(MagicSkill);
 					//EnemyHealth -= SwordSkill;
-					if (MagicSkill <= 150) {
-
-						unsigned long int srand(time(NULL));
-						unsigned long int	RecoilChance = (rand() % 2);
-						if (RecoilChance = 0)
-						{
-							cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-							MyHealth -= 10;
-						}
-						else
-						{
-							cout << "Your magic lands with no recoil" << endl;
-						}
-					}
+					
 				}
 				while (!WildBeast.isDead())
 				{
@@ -389,20 +353,7 @@ int main(int argc, char **argv)
 					{
 						WildBeast.takeDamage(MagicSkill);
 						//EnemyHealth -= SwordSkill;
-						if (MagicSkill <= 150) {
-
-							unsigned long int srand(time(NULL));
-							unsigned long int	RecoilChance = (rand() % 2);
-							if (RecoilChance = 0)
-							{
-								cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-								MyHealth -= 10;
-							}
-							else
-							{
-								cout << "Your magic lands with no recoil" << endl;
-							}
-						}
+						
 					}
 					cout << "The Enemy strikes back with 20 damage" << endl;
 					MyHealth -= WildBeast.getDamage();
@@ -444,20 +395,7 @@ int main(int argc, char **argv)
 					{
 						BanditArcher.takeDamage(MagicSkill);
 						//EnemyHealth -= SwordSkill;
-						if (MagicSkill <= 150) {
-
-							unsigned long int srand(time(NULL));
-							unsigned long int	RecoilChance = (rand() % 2);
-							if (RecoilChance = 0)
-							{
-								cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-								MyHealth -= 10;
-							}
-							else
-							{
-								cout << "Your magic lands with no recoil" << endl;
-							}
-						}
+						
 					}
 					while (!BanditArcher.isDead())
 					{
@@ -476,20 +414,8 @@ int main(int argc, char **argv)
 						{
 							BanditArcher.takeDamage(MagicSkill);
 							//EnemyHealth -= SwordSkill;
-							if (MagicSkill <= 150) {
-
-								unsigned long int srand(time(NULL));
-								unsigned long int	RecoilChance = (rand() % 2);
-								if (RecoilChance = 0)
-								{
-									cout << "You are uneducated on the harsh rules of magic. You take 10 damage." << endl;
-									MyHealth -= 10;
-								}
-								else
-								{
-									cout << "Your magic lands with no recoil" << endl;
-								}
-							}
+							
+							
 						}
 						cout << "The Enemy strikes back with 20 damage" << endl;
 						MyHealth -= BanditArcher.getDamage();
